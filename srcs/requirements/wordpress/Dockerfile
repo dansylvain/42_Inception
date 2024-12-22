@@ -20,14 +20,13 @@ RUN mkdir -p /var/www/html \
     && chown -R www-data:www-data /var/www/html \
 	&& mkdir -p /run/php
 
-
 # Configurer PHP-FPM pour écouter sur le port 9000
 RUN sed -i 's/listen = .*/listen = 9000/' /etc/php/7.4/fpm/pool.d/www.conf
 
 # Exposer le port pour PHP-FPM
 EXPOSE 9000
 
-COPY ./wp-config.php ./var/www/html/wp-config.php
+COPY ./conf/wp-config.php ./var/www/html/wp-config.php
 RUN chown www-data:www-data /var/www/html/wp-config.php && chmod 644 /var/www/html/wp-config.php
 
 # Démarrer PHP-FPM
