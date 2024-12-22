@@ -1,19 +1,19 @@
 # Variables
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = srcs/docker-compose.yml
 
 # Cibles
 .PHONY: all build up down clean
 
-all: build up
+all: up
 
 build:
-	$(DOCKER_COMPOSE) build
+	docker-compose -f $(DOCKER_COMPOSE) build
 
 up:
-	$(DOCKER_COMPOSE) up -d
+	docker-compose -f $(DOCKER_COMPOSE) up -d
 
 down:
-	$(DOCKER_COMPOSE) down --remove-orphans
+	docker-compose -f  $(DOCKER_COMPOSE) down
 
-clean:
-	$(DOCKER_COMPOSE) down --volumes --remove-orphans
+clean: down
+	docker system prune -af

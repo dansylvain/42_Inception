@@ -1,0 +1,47 @@
+version: '3.8'  # Utilise une version adaptée à tes besoins
+
+services:
+  mariadb:
+    build:
+      context: requirements/mariadb  # Contexte de construction, le dossier où se trouve le Dockerfile
+      dockerfile: Dockerfile  # Spécifie le nom du Dockerfile si ce n'est pas le nom par défaut
+    container_name: mariadb-ctn  # Nom du conteneur
+    ports:
+      - "3306:3306"  # Redirige le port 3306 de l'hôte vers le conteneur
+    volumes:
+      - mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
+    environment:
+      MYSQL_ROOT_PASSWORD: secret  # Définir le mot de passe root de MariaDB
+    networks:
+      - my-network  # Ajouter le service au réseau
+
+  nginx:
+    build:
+      context: requirements/nginx
+      dockerfile: Dockerfile
+    container_name: nginx-ctn
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - my-network
+
+  wordpress:
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wp-ctn
+    ports:
+      - "9000:9000"
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - my-network
+
+volumes:
+  mariadb-data:  # Définition du volume
+  wordpress-data:
+networks:
+  my-network:
+    driver: bridge  # Création du réseau
