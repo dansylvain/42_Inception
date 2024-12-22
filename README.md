@@ -1,5 +1,5 @@
 # 42_inception
-The Inception project aims to [describe the main goal of your project]. This project involves setting up a development environment and infrastructure using Docker and other relevant technologies to facilitate application deployment and management.
+The Inception project aims to deploy and manage multiple services using containerization. This project involves setting up a development environment and infrastructure using Docker and other relevant technologies to facilitate application deployment and management.
 
 <p align="center">
   <img src="inception.webp" width="70%"/>
