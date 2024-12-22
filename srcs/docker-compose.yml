@@ -11,9 +11,32 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
     environment:
-      MYSQL_ROOT_PASSWORD: secret  # Définir le mot de passe root de MariaDB
+      MYSQL_ROOT_PASSWORD: "1333"  # Mot de passe pour l'utilisateur root
+      MYSQL_DATABASE: wp_database       # Création de la base de données WordPress
+      MYSQL_USER: wp_user         # Utilisateur pour se connecter à la DB
+      MYSQL_PASSWORD: wp_password # Mot de passe pour cet utilisateur
     networks:
       - my-network  # Ajouter le service au réseau
+
+  wordpress:
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wp-ctn
+    expose:
+      - "9000"
+    depends_on:
+      - mariadb
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306  # Le nom du service MariaDB dans Docker
+      WORDPRESS_DB_NAME: wp_database   # Le nom de la base de données
+      WORDPRESS_DB_USER: wp_user # L'utilisateur MariaDB
+      WORDPRESS_DB_PASSWORD: wp_password # Le mot de passe de l'utilisateur MariaDB
+    volumes:
+      - wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
+    networks:
+      - my-network
 
   nginx:
     build:
@@ -21,25 +44,15 @@ services:
       dockerfile: Dockerfile
     container_name: nginx-ctn
     ports:
-      - "443:443"
       - "80:80"
-    volumes:
-      - wordpress-data:/var/www/html
+      - "443:443"
     networks:
       - my-network
-
-  wordpress:
-    build:
-      context: requirements/wordpress
-      dockerfile: Dockerfile
-    container_name: wp-ctn
-    ports:
-      - "9000:9000"
     volumes:
-      - wordpress-data:/var/www/html
-    networks:
-      - my-network
-
+      - wordpress-data:/var/www/html 
+    depends_on:
+      - wordpress
+  
 volumes:
   mariadb-data:  # Définition du volume
   wordpress-data:

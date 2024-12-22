@@ -17,3 +17,8 @@ down:
 
 clean: down
 	docker system prune -af
+
+restart: clean all
+
+re:
+	docker-compose -f $(DOCKER_COMPOSE) restart

@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 # Exposer le port HTTP par défaut (443)
 EXPOSE 443
 
-COPY ./conf/nginx.conf ./etc/nginx/conf.d/nginx.conf
+COPY ./conf/nginx.conf ./etc/nginx/nginx.conf
 
 # Commande de démarrage de Nginx
 CMD ["nginx", "-g", "daemon off;"]
