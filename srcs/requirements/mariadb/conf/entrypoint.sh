@@ -2,7 +2,7 @@
 set -e
 
 # Lance MariaDB en arrière-plan
-mysqld_safe --skip-networking &
+mysqld_safe &
 pid="$!"
 
 # Attends que MariaDB soit prêt

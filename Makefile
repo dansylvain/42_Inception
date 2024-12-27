@@ -25,6 +25,7 @@ re:
 	docker-compose -f $(DOCKER_COMPOSE) up -d
 
 wp_restart:
+	docker-compose -f $(DOCKER_COMPOSE) down -v wordpress
 	docker-compose -f $(DOCKER_COMPOSE) build wordpress
 	docker-compose -f $(DOCKER_COMPOSE) up -d wordpress
 

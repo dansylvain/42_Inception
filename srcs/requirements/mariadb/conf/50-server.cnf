@@ -1,6 +1,6 @@
 # This conf file was copied directly from the container 
 # some configurations were done
-#
+# TRUC
 #
 # These groups are read by MariaDB server.
 # Use it for options that only the server (but not clients) should see

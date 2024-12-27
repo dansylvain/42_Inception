@@ -18,7 +18,7 @@ EXPOSE 3306
 # # Changer l'utilisateur pour exécuter MariaDB
 # USER mariadb
 
-COPY ./conf/50-server.cnf ./etc/mysql/mariadb.conf.d/
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./conf/init.sql /init.sql
 COPY ./conf/entrypoint.sh /entrypoint.sh
 
@@ -30,7 +30,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 # Commande pour démarrer le service MariaDB
 CMD ["mysqld_safe"]
 
-VOLUME ["/var/lib/mysql"]
+#VOLUME ["/var/lib/mysql"]
 
 # docker build -t mariadb-img .
 # ! volume to be added!!!
