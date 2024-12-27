@@ -21,7 +21,8 @@ clean: down
 restart: clean all
 
 re:
-	docker-compose -f $(DOCKER_COMPOSE) restart
+	docker-compose -f $(DOCKER_COMPOSE) down -v
+	docker-compose -f $(DOCKER_COMPOSE) up -d
 
 wp_restart:
 	docker-compose -f $(DOCKER_COMPOSE) build wordpress
