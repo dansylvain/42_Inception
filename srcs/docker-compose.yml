@@ -9,7 +9,7 @@ services:
     ports:
       - "3306:3306"  # Redirige le port 3306 de l'hôte vers le conteneur
     volumes:
-      - /home/dsylvain/data/mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
+      - mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password.txt  # Mot de passe pour l'utilisateur root
       MYSQL_DATABASE: wp_database       # Création de la base de données WordPress
@@ -40,7 +40,7 @@ services:
     secrets:
       - db_password.txt
     volumes:
-      - /home/dsylvain/data/wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
+      - wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
     networks:
       - my-network
 
@@ -55,10 +55,13 @@ services:
     networks:
       - my-network
     volumes:
-      - /home/dsylvain/data/wordpress-data:/var/www/html 
+      - wordpress-data:/var/www/html 
     depends_on:
       - wordpress
   
+volumes:
+  mariadb-data:
+  wordpress-data:
 secrets:
   db_root_password.txt:
     file: ../secrets/db_root_password.txt
