@@ -16,7 +16,7 @@ down:
 	docker-compose -f  $(DOCKER_COMPOSE) down
 
 clean: down
-	docker system prune -af
+	docker system prune -a -f --volumes
 
 restart: clean all
 

@@ -2,7 +2,6 @@ version: '3.8'  # Utilise une version adaptée à tes besoins
 
 services:
   mariadb:
-    restart: always
     build:
       context: requirements/mariadb  # Contexte de construction, le dossier où se trouve le Dockerfile
       dockerfile: Dockerfile  # Spécifie le nom du Dockerfile si ce n'est pas le nom par défaut
@@ -10,7 +9,7 @@ services:
     ports:
       - "3306:3306"  # Redirige le port 3306 de l'hôte vers le conteneur
     volumes:
-      - mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
+      - /home/dsylvain/data/mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password.txt  # Mot de passe pour l'utilisateur root
       MYSQL_DATABASE: wp_database       # Création de la base de données WordPress
@@ -41,12 +40,11 @@ services:
     secrets:
       - db_password.txt
     volumes:
-      - wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
+      - /home/dsylvain/data/wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
     networks:
       - my-network
 
   nginx:
-    restart: always
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
@@ -57,13 +55,10 @@ services:
     networks:
       - my-network
     volumes:
-      - wordpress-data:/var/www/html 
+      - /home/dsylvain/data/wordpress-data:/var/www/html 
     depends_on:
       - wordpress
   
-volumes:
-  mariadb-data:  # Définition du volume
-  wordpress-data:
 secrets:
   db_root_password.txt:
     file: ../secrets/db_root_password.txt
