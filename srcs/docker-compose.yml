@@ -2,6 +2,7 @@ version: '3.8'  # Utilise une version adaptée à tes besoins
 
 services:
   mariadb:
+    restart: always
     build:
       context: requirements/mariadb  # Contexte de construction, le dossier où se trouve le Dockerfile
       dockerfile: Dockerfile  # Spécifie le nom du Dockerfile si ce n'est pas le nom par défaut
@@ -22,6 +23,7 @@ services:
       - my-network  # Ajouter le service au réseau
 
   wordpress:
+    restart: always
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
@@ -30,7 +32,6 @@ services:
       - "9000"
     depends_on:
       - mariadb
-    restart: always
     environment:
       WORDPRESS_DB_HOST: mariadb:3306  # Le nom du service MariaDB dans Docker
       WORDPRESS_DB_NAME: wp_database   # Le nom de la base de données
@@ -45,6 +46,7 @@ services:
       - my-network
 
   nginx:
+    restart: always
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
