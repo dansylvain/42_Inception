@@ -19,7 +19,13 @@ EXPOSE 3306
 # USER mariadb
 
 COPY ./conf/50-server.cnf ./etc/mysql/mariadb.conf.d/
-# COPY ./init_db.sh ./etc/mysql/mariadb.conf.d/
+COPY ./conf/init.sql /init.sql
+COPY ./conf/entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
 
 # Commande pour démarrer le service MariaDB
 CMD ["mysqld_safe"]
