@@ -1,16 +1,16 @@
 FROM debian:11
 
 
-# Mettre à jour les paquets et installer Nginx
+# update packages and install nginx
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
-# Installer openssl pour générer des certificats
+# install openssl to generate certificates
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
-# Créer les dossiers pour les certificats
+# create folder for certificates
 RUN mkdir -p /etc/ssl/private /etc/ssl/certs
 
-# Générer le certificat et la clé auto-signés
+# Generate certificate and auto-signed key
 RUN openssl req -x509 -nodes -days 365 \
 -newkey rsa:2048 \
 -keyout /etc/ssl/private/nginx-selfsigned.key \
@@ -20,13 +20,10 @@ RUN openssl req -x509 -nodes -days 365 \
 COPY ./conf/nginx.conf ./etc/nginx/nginx.conf
 
 
-# Exposer le port HTTP par défaut (443)
+# Exposee default HTTP port (443)
 EXPOSE 443
 
-# Commande de démarrage de Nginx
+# start Nginx
 CMD ["nginx", "-g", "daemon off;"]
 
 VOLUME ["/var/www/html"]
-
-# docker build -t nginx-img .
-# docker run --rm --network my-network --name nginx-ctn -d -p 80:80 nginx-img 

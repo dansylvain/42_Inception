@@ -1,19 +1,16 @@
 FROM debian:11
 
-# Mettre à jour les paquets et installer les dépendances nécessaires
+# update packages and install dependencies
 RUN apt-get update && apt-get install -y \
     mariadb-server \
     && rm -rf /var/lib/apt/lists/*
 
-# Créer les répertoires pour les données de MariaDB et le socket
+# create folder for MariaDB data and socket
 RUN mkdir -p /run/mysqld \
     && chown -R mysql:mysql /run/mysqld
 
-# Exposer le port par défaut de MariaDB
+# Expose mariadb default port
 EXPOSE 3306
-
-# # Changer l'utilisateur pour exécuter MariaDB
-# USER mariadb
 
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./conf/init.sql /init.sql
@@ -24,11 +21,5 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 
-# Commande pour démarrer le service MariaDB
+# start database
 CMD ["mysqld_safe"]
-
-#VOLUME ["/var/lib/mysql"]
-
-# docker build -t mariadb-img .
-# ! volume to be added!!!
-# docker run --name mariadb-ctn --rm -d mariadb-img
