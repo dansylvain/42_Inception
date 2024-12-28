@@ -19,7 +19,9 @@ set_permissions:
 # Cibles
 .PHONY: all build up down clean
 
-all: up
+.DEFAULT_GOAL := all
+
+all: build up
 
 build:
 	docker-compose -f $(DOCKER_COMPOSE) build
@@ -32,7 +34,9 @@ down:
 
 clean: down
 	docker system prune -a -f --volumes
-	docker volume rm $(shell docker volume ls -q)
+	@volumes=$$(docker volume ls -q); \
+	if [ -n "$$volumes" ]; then docker volume rm $$volumes; fi
+	sudo rm -rf ~/data
 
 restart: clean all
 
