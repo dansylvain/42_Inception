@@ -63,7 +63,19 @@ services:
   
 volumes:
   mariadb-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: '/home/${USER}/data/mariadb'  # Bind mount pour MariaDB
+      o: bind
+
   wordpress-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: '/home/${USER}/data/wordpress'  # Bind mount pour WordPress
+      o: bind
+
 secrets:
   db_root_password.txt:
     file: ../secrets/db_root_password.txt

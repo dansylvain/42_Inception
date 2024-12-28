@@ -1,5 +1,20 @@
 # Variables
 DOCKER_COMPOSE = srcs/docker-compose.yml
+# Définir les chemins des répertoires de données
+MARIADB_DIR = /home/$(USER)/data/mariadb
+WORDPRESS_DIR = /home/$(USER)/data/wordpress
+
+# Règle pour créer les répertoires nécessaires
+create_dirs:
+	@echo "Création des répertoires nécessaires..."
+	mkdir -p $(MARIADB_DIR)
+	mkdir -p $(WORDPRESS_DIR)
+
+# Règle pour donner les bonnes permissions aux répertoires
+set_permissions:
+	@echo "Définition des permissions sur les répertoires..."
+	sudo chmod -R 777 $(MARIADB_DIR)
+	sudo chmod -R 777 $(WORDPRESS_DIR)
 
 # Cibles
 .PHONY: all build up down clean
@@ -9,7 +24,7 @@ all: up
 build:
 	docker-compose -f $(DOCKER_COMPOSE) build
 
-up:
+up: create_dirs set_permissions
 	docker-compose -f $(DOCKER_COMPOSE) up -d
 
 down:
