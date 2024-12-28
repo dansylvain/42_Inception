@@ -5,9 +5,6 @@ RUN apt-get update && apt-get install -y \
     mariadb-server \
     && rm -rf /var/lib/apt/lists/*
 
-# # Créer un utilisateur pour MariaDB
-# RUN useradd -ms /bin/bash mariadb
-
 # Créer les répertoires pour les données de MariaDB et le socket
 RUN mkdir -p /run/mysqld \
     && chown -R mysql:mysql /run/mysqld

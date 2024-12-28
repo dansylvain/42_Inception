@@ -75,3 +75,4 @@ mariadb_restart:
 	@echo "Restarting MariaDB service..."
 	docker-compose -f $(DOCKER_COMPOSE) build mariadb
 	docker-compose -f $(DOCKER_COMPOSE) up -d mariadb
+	

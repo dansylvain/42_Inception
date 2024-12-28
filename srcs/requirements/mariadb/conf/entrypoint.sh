@@ -1,26 +1,24 @@
 #!/bin/bash
 set -e
 
-# Lance MariaDB en arrière-plan
-mysqld_safe &
-pid="$!"
-
-# Attends que MariaDB soit prêt
-while ! mysqladmin ping --silent; do
-    sleep 1
-done
-
-# Si c'est le premier démarrage, initialise la base de données
+# check that db is initialized
 if [ ! -f /var/lib/mysql/.initialized ]; then
     echo "Initialisation de la base de données..."
+    mysqld_safe & # temporary launch for initialization
+    pid="$!"
+
+    # wait for mariaDB to be ready
+    while ! mysqladmin ping --silent; do
+        sleep 1
+    done
+
     mysql -uroot < /init.sql
     touch /var/lib/mysql/.initialized
+
+    # stop mariaDB temporarily
+    kill "$pid"
+    wait "$pid"
 fi
 
-# Arrête MariaDB en arrière-plan pour le relancer en mode normal
-kill "$pid"
-wait "$pid"
-
-# Relance MariaDB en mode normal
+# relaunch mariaDB in normal mode
 exec mysqld_safe
-	
