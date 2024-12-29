@@ -38,12 +38,12 @@ up: create_dirs set_permissions
 # Stop the Docker containers
 down:
 	@echo "Stopping Docker containers..."
-	docker-compose -f $(DOCKER_COMPOSE) down
+	@docker-compose -f $(DOCKER_COMPOSE) down
 
 # Clean up by removing unused volumes and data
 clean: down
 	@echo "Cleaning up volumes and data..."
-	docker system prune -a -f --volumes
+	@docker system prune -a -f --volumes
 	@volumes=$$(docker volume ls -q); \
 	if [ -n "$$volumes" ]; then docker volume rm $$volumes; fi
 	@sudo rm -rf ~/data
