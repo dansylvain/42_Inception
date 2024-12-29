@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS wp_database;
-USE wp_database;
-CREATE USER IF NOT EXISTS 'wp_user'@'%' IDENTIFIED BY 'wp_password';
-GRANT ALL PRIVILEGES ON wp_database.* TO 'wp_user'@'%';
+CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
+USE ${MYSQL_DATABASE};
+CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
 
 /*M!999999\- enable the sandbox mode */ 
 -- MariaDB dump 10.19  Distrib 10.5.26-MariaDB, for debian-linux-gnu (x86_64)
