@@ -12,10 +12,10 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password.txt  # Mot de passe pour l'utilisateur root
-      MYSQL_DATABASE: wp_database       # Création de la base de données WordPress
-      MYSQL_USER: wp_user         # Utilisateur pour se connecter à la DB
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password.txt # Mot de passe pour cet utilisateur
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     secrets:
       - db_password.txt
       - db_root_password.txt

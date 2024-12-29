@@ -15,8 +15,8 @@ EXPOSE 3306
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./conf/init.sql /init.sql
 COPY ./conf/entrypoint.sh /entrypoint.sh
-RUN mkdir -p /docker-entrypoint-initdb.d
-COPY ./conf/dump.sql /docker-entrypoint-initdb.d/
+# RUN mkdir -p /docker-entrypoint-initdb.d
+# COPY ./conf/dump.sql /docker-entrypoint-initdb.d/
 
 
 RUN chmod +x /entrypoint.sh
