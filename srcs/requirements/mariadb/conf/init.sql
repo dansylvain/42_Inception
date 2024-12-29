@@ -400,7 +400,7 @@ CREATE TABLE `wp_users` (
 
 LOCK TABLES `wp_users` WRITE;
 /*!40000 ALTER TABLE `wp_users` DISABLE KEYS */;
-INSERT INTO `wp_users` VALUES (1,'super_user','$P$BVSyX75dTezulH5wyMiE0Vz33hxhpi1','super_user','super@email.com','https://localhost','2024-12-29 11:35:51','',0,'super_user');
+INSERT INTO `wp_users` VALUES (1,'super_user','$P$BVSyX75dTezulH5wyMiE0Vz33hxhpi1','super_user','super@email.com','https://localhost','2024-12-29 11:35:51','',0,'super_user'),(2,'dummy_user','$P$B6xWiRGQVWlZsVqA2LIeO/OmRs0un10','dummy_user','another_email@mail.com','','2024-12-29 18:29:24','1735496964:$P$BchHyZgcpGfsZKIoZbtD9NnVFsrXui1',0,'dummy_user');
 /*!40000 ALTER TABLE `wp_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
