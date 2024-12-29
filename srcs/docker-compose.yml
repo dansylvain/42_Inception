@@ -1,23 +1,23 @@
-version: '3.8'  # Utilise une version adaptée à tes besoins
+version: '3.8'  # Use an appropriate version for your needs
 
 services:
   mariadb:
     restart: always
     build:
-      context: requirements/mariadb  # Contexte de construction, le dossier où se trouve le Dockerfile
-      dockerfile: Dockerfile  # Spécifie le nom du Dockerfile si ce n'est pas le nom par défaut
-    container_name: mariadb-ctn  # Nom du conteneur
+      context: requirements/mariadb  # Build context, the folder where the Dockerfile is located
+      dockerfile: Dockerfile  # Specifies the name of the Dockerfile if it is not the default one
+    container_name: mariadb-ctn  # Container name
     ports:
-      - "3306:3306"  # Redirige le port 3306 de l'hôte vers le conteneur
+      - "3306:3306"  # Redirect port 3306 from host to container
     volumes:
-      - mariadb-data:/var/lib/mysql  # Montre un volume pour persister les données
+      - mariadb-data:/var/lib/mysql  # Mount a volume to persist data
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     networks:
-      - my-network  # Ajouter le service au réseau
+      - my-network  # Add the service to the network
 
   wordpress:
     restart: always
@@ -30,7 +30,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
+      - wordpress-data:/var/www/html  # Volume to store WordPress files
     networks:
       - my-network
 
@@ -41,12 +41,11 @@ services:
       dockerfile: Dockerfile
     container_name: nginx-ctn
     ports:
-      - "80:80"
       - "443:443"
     networks:
       - my-network
     volumes:
-      - wordpress-data:/var/www/html 
+      - wordpress-data:/var/www/html  # Mount WordPress files volume
     depends_on:
       - wordpress
   
@@ -55,16 +54,16 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: '/home/${USER}/data/mariadb'  # Bind mount pour MariaDB
+      device: '/home/${USER}/data/mariadb'  # Bind mount for MariaDB
       o: bind
 
   wordpress-data:
     driver: local
     driver_opts:
       type: none
-      device: '/home/${USER}/data/wordpress'  # Bind mount pour WordPress
+      device: '/home/${USER}/data/wordpress'  # Bind mount for WordPress
       o: bind
 
 networks:
   my-network:
-    driver: bridge  # Création du réseau
+    driver: bridge  # Create the network
