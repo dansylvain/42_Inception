@@ -16,9 +16,6 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    secrets:
-      - db_password.txt
-      - db_root_password.txt
     networks:
       - my-network  # Ajouter le service au réseau
 
@@ -32,14 +29,6 @@ services:
       - "9000"
     depends_on:
       - mariadb
-    environment:
-      WORDPRESS_DB_HOST: mariadb:3306  # Le nom du service MariaDB dans Docker
-      WORDPRESS_DB_NAME: wp_database   # Le nom de la base de données
-      WORDPRESS_DB_USER: wp_user # L'utilisateur MariaDB
-      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password.txt # Remplace par la méthode fichier si modifié
-
-    secrets:
-      - db_password.txt
     volumes:
       - wordpress-data:/var/www/html  # Le volume pour stocker les fichiers WordPress
     networks:
@@ -76,11 +65,6 @@ volumes:
       device: '/home/${USER}/data/wordpress'  # Bind mount pour WordPress
       o: bind
 
-secrets:
-  db_root_password.txt:
-    file: ../secrets/db_root_password.txt
-  db_password.txt:
-    file: ../secrets/db_password.txt
 networks:
   my-network:
     driver: bridge  # Création du réseau
