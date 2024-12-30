@@ -21,8 +21,8 @@ set_permissions:
 # Rule to check for the .env file
 check_env:
 	@if [ ! -f srcs/.env ]; then \
-		echo "Error: .env file needed..."; \
-		echo "Run 'make fetch_env' to download the .env file."; \
+		echo "\nError: .env file needed..."; \
+		echo "\nRun 'make fetch_env' to download the .env file.\n\n"; \
 		exit 1; \
 	fi
 

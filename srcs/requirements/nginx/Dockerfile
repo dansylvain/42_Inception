@@ -15,7 +15,7 @@ RUN openssl req -x509 -nodes -days 365 \
 -newkey rsa:2048 \
 -keyout /etc/ssl/private/nginx-selfsigned.key \
 -out /etc/ssl/certs/nginx-selfsigned.crt \
--subj "/C=FR/ST=Occitanie/L=Perpignan/O=42/OU=Student/CN=localhost.local"
+-subj "/C=FR/ST=Occitanie/L=Perpignan/O=42/OU=Student/CN=dsylvain.42.fr/UID=dsylvain"
 
 COPY ./conf/nginx.conf ./etc/nginx/nginx.conf
 
