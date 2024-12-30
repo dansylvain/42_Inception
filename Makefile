@@ -3,6 +3,8 @@ DOCKER_COMPOSE = srcs/docker-compose.yml
 # Define the paths for the data directories
 MARIADB_DIR = /home/$(USER)/data/mariadb
 WORDPRESS_DIR = /home/$(USER)/data/wordpress
+ENV_URL = https://raw.githubusercontent.com/dansylvain/inception_env/refs/heads/main/.env
+
 
 # Rule to create the necessary directories
 create_dirs:
@@ -16,6 +18,20 @@ set_permissions:
 	sudo chmod -R 777 $(MARIADB_DIR)
 	sudo chmod -R 777 $(WORDPRESS_DIR)
 
+# Rule to check for the .env file
+check_env:
+	@if [ ! -f srcs/.env ]; then \
+		echo "Error: .env file needed..."; \
+		echo "Run 'make fetch_env' to download the .env file."; \
+		exit 1; \
+	fi
+
+fetch_env:
+	@echo "Downloading the .env file..."
+	@mkdir -p srcs
+	@curl -o srcs/.env $(ENV_URL)
+	@echo ".env file downloaded successfully!"
+
 # Targets
 .PHONY: all build up down clean
 
@@ -23,7 +39,7 @@ set_permissions:
 .DEFAULT_GOAL := all
 
 # Default target (executed when 'make' is run without arguments)
-all: build up
+all: check_env build up
 
 # Build the Docker services
 build:
@@ -52,13 +68,13 @@ clean: down
 restart: clean all
 
 # Restart all containers, removing volumes
-re:
+re: check_env
 	@echo "Restarting Docker containers..."
 	docker-compose -f $(DOCKER_COMPOSE) down -v
 	docker-compose -f $(DOCKER_COMPOSE) up -d
 
 # Restart the WordPress service
-wp_restart:
+wp_restart: 
 	@echo "Restarting WordPress service..."
 	docker-compose -f $(DOCKER_COMPOSE) down -v wordpress
 	docker-compose -f $(DOCKER_COMPOSE) build wordpress
