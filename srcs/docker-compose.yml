@@ -2,11 +2,12 @@ version: '3.8'  # Use an appropriate version for your needs
 
 services:
   mariadb:
+    container_name: mariadb  # Container name
     restart: always
     build:
       context: requirements/mariadb  # Build context, the folder where the Dockerfile is located
       dockerfile: Dockerfile  # Specifies the name of the Dockerfile if it is not the default one
-    container_name: mariadb-ctn  # Container name
+    image: mariadb
     ports:
       - "3306:3306"  # Redirect port 3306 from host to container
     volumes:
@@ -20,11 +21,12 @@ services:
       - my-network  # Add the service to the network
 
   wordpress:
+    container_name: wordpress
     restart: always
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
-    container_name: wp-ctn
+    image: wordpress
     expose:
       - "9000"
     depends_on:
@@ -35,11 +37,12 @@ services:
       - my-network
 
   nginx:
+    container_name: nginx
     restart: always
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
-    container_name: nginx-ctn
+    image: nginx
     ports:
       - "443:443"
     networks:

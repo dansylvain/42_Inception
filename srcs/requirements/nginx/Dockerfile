@@ -19,11 +19,8 @@ RUN openssl req -x509 -nodes -days 365 \
 
 COPY ./conf/nginx.conf ./etc/nginx/nginx.conf
 
-
 # Exposee default HTTP port (443)
 EXPOSE 443
 
 # start Nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-VOLUME ["/var/www/html"]
