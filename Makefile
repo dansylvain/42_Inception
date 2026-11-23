@@ -3,8 +3,6 @@ DOCKER_COMPOSE = srcs/docker-compose.yml
 # Define the paths for the data directories
 MARIADB_DIR = /home/$(USER)/data/mariadb
 WORDPRESS_DIR = /home/$(USER)/data/wordpress
-ENV_URL = https://raw.githubusercontent.com/dansylvain/inception_env/refs/heads/main/.env
-
 
 # Rule to create the necessary directories
 create_dirs:
@@ -22,15 +20,14 @@ set_permissions:
 check_env:
 	@if [ ! -f srcs/.env ]; then \
 		echo "\nError: .env file needed..."; \
-		echo "\nRun 'make fetch_env' to download the .env file.\n\n"; \
+		echo "\nRun 'make fetch_env' to create it from the example.\n\n"; \
 		exit 1; \
 	fi
 
 fetch_env:
-	@echo "Downloading the .env file..."
-	@mkdir -p srcs
-	@curl -o srcs/.env $(ENV_URL)
-	@echo ".env file downloaded successfully!"
+	@echo "Creating srcs/.env from the example..."
+	@cp srcs/.env.example srcs/.env
+	@echo "Done. Edit srcs/.env and set your own values."
 
 # Targets
 .PHONY: all build up down clean
